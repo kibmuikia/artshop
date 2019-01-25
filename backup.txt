@@ -1,0 +1,22 @@
+height:100%;width:200px !important;
+	***
+<!--
+				<div class="card">
+					<div class="card-image">
+						<img src='<?php echo $row['prod_image'];?>'>
+					</div>
+					<div class="card-content">
+						<span class="card-title black-text 3dtxt">
+							<b class=""><?php echo $row['name'];?></b>
+						</span>
+						<p><?php echo $row['description'];?></p>
+					</div>
+					<div class="card-action center-align">
+						<a href="details_product.php?id=<?php echo $row['id'];?>" title="More Information" class="">
+							<i class="material-icons">details</i>
+						</a>
+					</div>
+				</div>-->
+	****
+height:200px;
+	***

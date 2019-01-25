@@ -1,0 +1,42 @@
+{% extends 'baseSeller.html' %}
+
+{% block pagetitle %} Completed Registration {% endblock %}
+
+{% block welcome %}
+One More Step
+{% endblock %}
+
+{% block content %}
+
+	<!-- page content -->
+
+	<section class="container">
+		<div class="row">
+			<div class="col m6 offset-m3">
+				<div class="card-panel">
+					<span>
+						<h3>Registration Complete</h3>
+						<div class="divider"></div>
+						{% if status %}
+						<p>
+							<small>Status : </small>
+							{{ status }}
+						</p>
+						{% endif %}
+						<p>
+							<a href="https://accounts.google.com/ServiceLogin#identifier" 
+							class="right"
+							title="If you have a Gmail account, use this link, if not: use your email client.">
+								  <!-- url 'sellerIndex'  -->
+								<button class="btn waves-effect waves-green">
+									Gmail Account Link
+								</button>
+							</a>
+						</p>
+					</span>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+{% endblock %}

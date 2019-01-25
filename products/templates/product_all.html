@@ -1,0 +1,257 @@
+{% extends 'baseSeller.html' %}
+
+{% block pagetitle %} Products {% endblock %}
+
+{% block morestyle %}
+
+<!-- additional stylesheets -->
+	{% load static %}
+	<!-- jquery-ui -->
+	<script src="{% static 'artshop/js/jquery-3.3.1.min.js' %}"></script>
+	<link rel="stylesheet" type="text/css" 
+	href="{% static 'artshop/css/jquery-ui.min.css' %}" />
+	<script src="{% static 'artshop/js/jquery-ui.min.js' %}"></script>
+
+{% endblock %}
+
+{% block welcome %}
+<a href="{% url 'all_products' %}" class="black-text" 
+data-position="bottom" data-tooltip="View All Products" class="headertooltip" 
+title="View All Products">
+	<i class="material-icons large">shopping_cart</i>
+</a>
+{% endblock %}
+
+{% block content %}
+
+<section>
+<div class="row">
+	
+	<div class="col m3">
+		<div class="card-panel">
+			<h5 class="center-align">Filter options</h5>
+			<ul>
+				<li class="card-panel">
+					{% if pricerangeform %}
+					<form id="pricerangeform" action="" method="POST">
+						<div id="prslide"></div>
+						<input type="range" id="priceslider" value="50" min="50" max="100000" 
+						step="1" />
+						<span id="slider_value">Nothing yet.</span>
+						<ul>
+						{{ pricerangeform.as_ul }}
+						</ul>
+					</form>
+					{% endif %}
+				</li>
+				<li>
+					<a href="#">option 2</a>
+				</li>
+				<li>
+					<a href="#">option 3</a>
+				</li>
+			</ul>
+		</div>
+	</div><!-- end : links -->
+
+	<div class="col m9">
+		<h3 class="heading center">Products</h3>
+
+		<div class="row">
+			<form class="col s12" method="POST" action="" 
+			id="prodlookform">
+				{% csrf_token %}
+				<div class="container">
+				<div class="row">
+					<div class="input-field col s6 m10">
+						<!--<i class="material-icons prefix">search</i>
+						
+						<textarea id="icon_prefix2" 
+						class="materialize-textarea form-control" 
+						name="searchtext" id="searchtext" ></textarea>-->
+						
+						<label for="searchtext">
+							<i class="material-icons left">search</i>
+							Search Product
+						</label>
+
+						<input type="text" name="searchtext" id="searchtext" 
+						class="form-control" list="prod_datalist" 
+						onchange="prodlookform.submit()" />
+						<datalist id="prod_datalist"></datalist>						
+
+					</div>
+					<div class="col m2 valign-wrapper">
+						<button class="btn green accent-3" type="submit">
+							<i class="material-icons small">send</i>
+						</button>
+					</div>
+				</div>
+				</div>
+			</form>
+		</div>
+
+		{% if zote %}
+		<div class="row">
+			{% for product in zote %}
+			<div class="col m3">
+
+				<div class="card hoverable">
+					<div class="card-image">
+						{% load static %}
+						<img src="{{ product.image_one.url }}" 
+						alt="{{ product.name }}" 
+						style="height:200px;" />
+
+						<span class="card-title"> {{ product.name }} </span>
+
+			<a class="btn-floating halfway-fab waves-effect waves-green cyan lighten-2 pulse" 
+			title="Details of product[- {{ product.name }} -]" 
+			href="{% url 'product_detail_link' product.pk %}" >
+				<i class="material-icons black-text">details</i>
+			</a>
+					</div>
+
+					<div class="card-content">
+						<h5 class="center-align"> {{ product.name }} </h5>
+						<p> {{ product.description }} </p>
+						<p class="green-text text-accent-3">By: {{ product.vendor }}</p>
+					</div>
+				</div>
+			
+			</div>
+			{% endfor %}
+		</div><!-- end: all-products row -->
+		<div class="row">
+			<div class="col m12 center">
+			<ul class="pagination">
+
+				{% if zote.has_previous %}
+					<li class="waves-effect"> 
+						<a href="?page=1" class="btn btn-small" 
+						title="To First Page">
+							<!-- &laquo; -->
+							<i class="material-icons">first_page</i>
+						</a> 
+					</li>
+					<li class="waves-effect">
+						<a href="?page={{ zote.previous_page_number }}" class="btn btn-small" 
+						title="Previous Page" >
+							<i class="material-icons">chevron_left</i>
+						</a> 
+					</li>
+				{% endif %}
+
+				<li class="active">
+					<!--<a href="#!">1</a>-->
+					<a href="">
+						Page {{ zote.number }} of {{ zote.paginator.num_pages }}
+					</a>
+				</li>
+
+				{% if zote.has_next %}
+					<li class="waves-effect"> 
+						<a href="?page={{ zote.next_page_number }}" class="btn btn-small" title="Next Page" >
+							<i class="material-icons">chevron_right</i>
+						</a>
+					</li>
+					<li class="waves-effect"> 
+						<a href="?page={{ zote.paginator.num_pages }}" title="To Last Page" 
+						class="btn btn-small">
+							<i class="material-icons">last_page</i>
+						</a> 
+					</li>
+				{% endif %}
+
+			</ul>
+			</div>
+		</div><!-- end: pagination row -->
+		{% endif %}
+
+	</div><!-- end : products -->
+
+</div>
+</section>
+
+
+{% endblock %}
+
+{% block morejs %}
+
+<script>
+
+$(function() {
+
+	var pricerangefield = $( 'input[name="price_range_field"]' );
+	var prslide = $( '#prslide' );
+
+	prslide.slider( { 
+		disabled: false,
+		step: 1,
+		min: 50,
+		max: 100000,
+		range: true,
+	 } );
+
+	$(document).on('input change', '#priceslider', function() {
+		$('#slider_value').html( $(this).val() );
+		console.log( "Value :: "+ $(this).val() );
+		console.log( "Max :: "+ $(this).attr( "max" ) );
+		console.log( "Min :: "+ $(this).attr( "min" ) );
+	});
+
+	$( '#pricerangeform' ).submit( function(e){
+		var val = $( this ).serialize();
+		var pricerangefieldval = $( 'input[name="price_range_field"]' ).val();		
+		console.log( pricerangefieldval );
+		e.preventDefault();
+	} );
+
+	//headertooltip
+	$('.headertooltip').tooltip( {
+		position:'left'
+	} );
+
+$("#searchtext").keyup(function(){
+	var val = $(this).val();
+	//console.log( val );
+
+	if( val.length >= 1 ){
+		$.ajax( {
+			url: "{% url 'productsAutoCompleteLink' %}",
+			data: 'searchtext='+val,
+			beforeSend: function( xhr, settings ){
+				//console.log( xhr )
+				//console.log( settings.data )
+			},
+			error: function( request, status, error ) {
+				console.log( 'An error occurred' );
+				console.log( request.responseText );
+			},
+			type: 'GET',
+			success: function(data) {
+				//console.log( 'Success' );
+				if( $.isArray( data ) && data.length !== 0 ){
+					//console.log( $.isArray( data ) );
+					//console.log( data.length );
+					var optionsList = [];
+					$.each(data, function (index, value) {
+						//console.log( index + " : " + value );
+						optionsList.push('<option value="'+ value +'">'+ value +'</option>');
+					});
+					$('#prod_datalist').html(optionsList.join(''));
+				} else{
+					console.log( 'received result is NOT an array or an empty array' );
+					console.log( data );
+				}
+			},
+		} );// end: AJAX
+	}// end: IF
+
+});// end: KEYUP
+
+});// end: MAIN FUNCTION WRAP
+
+</script>
+
+{% endblock %}
