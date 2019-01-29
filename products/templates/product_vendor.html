@@ -1,0 +1,127 @@
+{% extends 'baseSeller.html' %}
+
+{% block pagetitle %} Vendor[ {{ extrainfo.user }} ] {% endblock %}
+
+{% load staticfiles %}
+
+{% block morestyle %}
+
+	<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}" 
+		type="text/css" />
+	<script src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+
+{% endblock %}
+
+{% load ratings %}
+
+{% block welcome %}
+<a href="." class="black-text" 
+title="Refresh Page">
+	<i class="material-icons large">account_box</i>
+</a>
+{% endblock %}
+
+{% block content %}
+
+<section>
+	
+	<div class="row">
+		<div class="col m5 center-align">
+			<img src="{{ object.profileImage.url }}" 
+			alt="Profile Image - {{ object.user }}" 
+			width="250px" height="250px" class="circle responsive-img z-depth-3" />
+		</div>
+
+		<div class="col m7 center-align">
+			<div class="container">
+				<table class="striped responsive-table" id="tbl_vendorDetails">
+					<caption>[ <b> {{ object.user }} </b> ]'s  Details</caption>
+					<tbody>
+						<!--<tr>
+							<td>Vendor's First Name</td>
+							<td> {{ object.first_name }} </td>
+						</tr>
+						<tr>
+							<td>Vendor's Last Name</td>
+							<td> {{ object.user__last_name }} </td>
+						</tr>-->
+						<tr>
+							<td>Vendor's Username</td>
+							<td> {{ object.user }} </td>
+						</tr>
+						<tr>
+							<td> Name of shop</td>
+							<td> {{ object.shop }} </td>
+						</tr>
+						<tr>
+							<td> Shop Location </td>
+							<td> {{ object.shopLocation }} </td>
+						</tr>
+						<tr>
+							<td> Review </td>
+							<td>
+								<!--<a href="#">Review this Vendor</a>-->
+								{% ratings object %}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="row center-align">
+		<div class="col m6 offset-m3">
+			<table class="responsive-table highlight">
+				<caption>[ <b> {{ object.user }} </b> ]'s list of products</caption>
+				<thead>
+					<tr>
+						<th>Image</th>
+						<th>Name</th>
+						<th>Price</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for detail in product_model %}
+					<tr>
+						<td>
+							<img src="{{ detail.image_one.url }}" 
+							alt="{{ detail.name }}" class="responsive-img z-depth-2" 
+							width="120px"
+							style="height:120px !important;" />
+						</td>
+						<td>
+							{{ detail.name }}
+						</td>
+						<td>
+							{{ detail.price }}
+						</td>
+						<td>
+							<a href="{% url 'product_detail_link' detail.pk %}" 
+							title="View Details of the product">
+								<i class="material-icons left">link</i>
+								Product Details
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</section>
+
+{% endblock %}
+
+
+{% block morejs %}
+
+<script>
+	
+	//code
+
+</script>
+
+{% endblock %}

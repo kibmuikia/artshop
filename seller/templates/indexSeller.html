@@ -1,0 +1,74 @@
+{% extends 'baseSeller.html' %}
+
+{% block pagetitle %} Seller Home {% endblock %}
+
+{% block morestyle %}
+
+	<!--{% load static %}
+	<link rel="stylesheet" type="text/css"
+	href="{% static 'root/css/style.css' %}" />-->
+
+{% endblock %}
+
+{% block welcome %}
+Vendor Hub
+{% endblock %}
+
+{% block content %}
+
+	<!-- page content -->	
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col m6 offset-m3">
+					<div class="card-panel">
+						<span class="">
+							<h4 class="center"> Access Your Account</h4>
+							{% if status %}
+							<p>
+								<small>Status :: </small>
+								{{ status }}
+							</p>
+							{% endif %}
+
+							{% load materializecss %}
+							<form method="POST" action="" class="">
+								
+								{% csrf_token %}
+
+								{{ signinForm|materializecss }}
+
+								<br />
+
+								<button type="submit" name="signInBtn"
+								class="btn-floating waves-effect waves-green" 
+								title="Login">
+									<i class="material-icons">send</i>
+								</button>
+
+								<button type="reset" name="signInBtn"
+								class="btn-floating waves-effect waves-red right" 
+								title="Refresh Form">
+									<i class="material-icons">refresh</i>
+								</button>
+
+							</form><!-- end Login-form -->
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+{% endblock %}
+
+{% block morejs %}
+
+	<script>
+
+		//code
+
+	</script>
+
+{% endblock %}

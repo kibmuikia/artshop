@@ -1,0 +1,78 @@
+	def post( self, request, *args, **kwargs ):
+		flogin = self.form_login( request.POST )
+		fdefault = self.form_default( request.POST )
+		AccountInlineFormSet = inlineformset_factory( User, ExtraInfo, fields=('profileImage','shop','shopInfo','website') )
+		fextra = AccountInlineFormSet( request.POST, request.FILES )
+
+			# handling registration
+		if fdefault.is_valid(): # all( [ fdefault.is_valid(), fextra.is_valid() ] )
+			newSeller = fdefault.save( commit=False )
+			fextra = AccountInlineFormSet( request.POST, request.FILES, instance=newSeller )
+			#fextra = self.form_extra( request.POST, request.FILES, instance=newSeller )
+			if fextra.is_valid():
+				username = fdefault.cleaned_data['username']
+				password = fdefault.cleaned_data['password']
+				newSeller.set_password( password )
+				newSeller.save()
+				fextra.save()
+
+				message = '%s created' % username
+				args = {
+					'status':message
+				}
+				return render( request, self.dashboard_page, args )
+		else:
+			message = 'Registration Failed'
+			fdefault = self.form_default(None)
+			fextra = self.form_extra(None)
+			args = {
+				'signupPart1':fdefault,
+				'signupPart2':fextra,
+				'status':message,
+			}
+			#return redirect( '/vendor/?status=%s' % message )
+			return render( request, self.home_page, args )
+		# end post
+
+					<div class="row">
+						<div class="col m6 offset-m3 z-depth-2" style="padding:15px;">
+							<h4 class="center">Register Your Shop</h4>
+
+							{% load materializecss %}
+							<form method="POST" enctype="multipart/form-data" action=""
+							class="" >
+								{% csrf_token %}
+
+								{{ signupPart1|materializecss }}
+								{{ signupPart2|materializecss }}
+
+								<!-- signup2|materializecss -->
+
+								<br />
+
+							<input type="submit" name="submitSignIn" value="Gain Access"
+							class="btn waves-effect waves-green blue-grey lighten-4 left" />
+							<input type="reset" name="resetSignIn" value="Refresh"
+							class="btn waves-effect waves-red blue-grey lighten-4 right" />
+
+							</form><!-- end singup form -->
+
+						</div>
+					</div>
+
+							{% if formAddProduct.errors %}
+								{% for field in formAddProduct %}
+								<p>{{ field.name }}:
+								<b>{{ field.value }}</b></p>
+									{% for error in field.errors %}
+									<h4>
+										<strong>{{ error|escape }}</strong>
+									</h4>
+									{% endfor %}
+								{% endfor %}
+								{% for error in formAddProduct.non_field_errors %}
+								<h4>
+									<strong>{{ error|escape }}</strong>
+								</h4>
+								{% endfor %}
+							{% endif %}

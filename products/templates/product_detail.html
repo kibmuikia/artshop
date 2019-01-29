@@ -1,0 +1,152 @@
+{% extends 'baseSeller.html' %}
+
+{% block pagetitle %} Product[ {{ product.name }} ] {% endblock %}
+
+{% block morestyle %}
+
+	<style type="text/css">
+		
+		.carousel-item > img {
+			height:425px;
+			border-radius: 8px;
+		}
+
+	</style>
+
+{% endblock %}
+
+{% block welcome %}
+<a href="{% url 'all_products' %}" class="black-text" 
+title="View All Products">
+	<i class="material-icons large">shopping_cart</i>
+</a>
+{% endblock %}
+
+{% block content %}
+
+
+<section>
+
+<div class="row">	
+	<div class="col m6 offset-m3">
+		<h4 class="center">
+			Product Details
+		</h4>
+	</div>
+</div>
+
+<div class="container">			
+
+	<div class="row">
+
+		<div class="col m5">
+	<div class="carousel carousel-slider hoverable">
+		{% load static %}
+		<a class="carousel-item" href="#one!">
+			<img src="{{ product.image_one.url }}" 
+			alt="{{ product.name }} image" class="responsive-img z-depth-2" />
+		</a>
+		<a class="carousel-item" href="#two!">
+			<img src="{{ product.image_two.url }}" 
+			alt="{{ product.name }} image" class="responsive-img z-depth-2" />
+		</a>
+		<a class="carousel-item" href="#three!">
+			<img src="{{ product.image_three.url }}" 
+			alt="{{ product.name }} image" class="responsive-img z-depth-2" />
+		</a>
+	</div>
+		</div>
+
+		<div class="col m7">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title center"> {{ product.name }} </span>
+						<p>
+			<table class="highlight responsive-table">
+				<tbody>
+					<tr>
+						<td> Description </td>
+						<td> {{ product.description }} </td>
+					</tr>
+					<tr>
+						<td> Category </td>
+						<td> {{ product.prod_category }} </td>
+					</tr>
+					<tr>
+						<td> Sub Category </td>
+						<td> {{ product.sub_Category }} </td>
+					</tr>
+					<tr>
+						<td> <p><i class="material-icons left">attach_money</i>Price</p> </td>
+						<td> {{ product.price }} </td>
+					</tr>
+					<tr>
+						<td> <p><i class="material-icons left">shop</i>Shop</p> </td>
+						<td>
+							{% for det in theseller %}
+								<a href="{% url 'vendor_detail_link' det.pk %}" 
+								title="View Vendor Information">
+									{{ det.shop }}
+								</a>
+							{% endfor %}
+						</td>
+					</tr>
+					<tr>
+						<td> Delivery Information </td>
+						<td> {{ product.deliveryInfo }} </td>
+					</tr>
+					<tr>
+						<td> <p><i class="material-icons left">location_city</i>Shop Location</p> </td>
+						<td>
+							{% for det in theseller %}
+							{{ det.shopLocation }}
+							{% endfor %}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+						</p>
+					</div>
+
+					<div class="card-action">
+			<a href="{% url 'all_products' %}" 
+			title="Go Back">
+				<button class="btn left teal accent-2 black-text waves-effect waves-green">
+					<i class="material-icons left">chevron_left</i>
+					Back
+				</button>
+			</a>
+			{% if request.user.is_authenticated and request.user == product.vendor %}
+			<a href="/products/edit/{{ product.name }}"><!-- /products/edit/{{ product.name }} -->
+				<button class="btn right black-text teal accent-2">
+					<i class="material-icons left">edit</i>
+					Edit Product
+				</button>
+			</a>
+			{% endif %}
+					</div> <br />
+
+				</div>				
+			</div>
+		
+
+	</div>
+
+</div>
+
+</section>
+
+{% endblock %}
+
+{% block morejs %}
+
+<script>
+	
+	$('.carousel.carousel-slider').carousel( {
+		indicators:true,
+		fullWidth:true,
+	} );
+
+</script>
+
+{% endblock %}

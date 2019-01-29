@@ -1,0 +1,126 @@
+.preloader-background {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #eee;
+	
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;	
+}
+
+nav ul a,
+nav .brand-logo {
+	color: #444;
+}
+
+.dropdown-content li a {
+  color:#424242;
+}
+/*.dropdown-content li a i {
+  color:#00e676;
+}*/
+.dropdown-content {
+  transform: translateY(-55%);
+}
+
+/*#regform input[type=checkbox] {
+	display: none;
+	opacity: 0;
+}*/
+
+.kibSection1 {
+	height: 600px;
+	background-size: cover;
+	-webkit-clip-path: polygon(0px 0px, 100% 0px, 100% 84%, 0px 100%);
+	clip-path: polygon(0px 0px, 100% 0px, 100% 84%, 0px 100%);
+	background-repeat: no-repeat;
+	background-image: url(../images/generalshopping.jpeg);
+	background-attachment: fixed;
+	padding-top: 75px;
+}
+
+.kibPoly {
+	height: 350px;
+	background-size: cover;
+	-webkit-clip-path: polygon(0px 0px, 100% 0px, 100% 77%, 0px 100%);
+	clip-path: polygon(0px 0px, 100% 0px, 100% 77%, 0px 100%);
+	background-repeat: no-repeat;
+}
+.kibPolyOpp {
+	height: 350px;
+	background-size: cover;
+	-webkit-clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 0px 77%);
+	clip-path: polygon(0px 0px, 100% 0px, 100% 100%, 0px 77%);
+	background-repeat: no-repeat;
+	background-image: url(../images/office.jpeg);
+	background-position: center bottom;
+	/*background-attachment: fixed;*/
+}
+
+.kibBgCircleWhite {
+	background-color: white;
+	color: #6c6c6c;
+	padding: 75px 81px 75px 90px;
+	border-radius: 50%;
+	width: 450px;
+	height: 450px;
+}
+.kibBgCircleWhiteAccounts {
+	background-color: #b3e5fc;
+	color: #6c6c6c;
+	border-radius: 50%;
+	height:270px; width:270px; padding:75px 0px 75px 0px; margin-top:2%;
+}
+
+.kibFlexCenterV {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.kibSection3 {
+  height: 220px;
+  background-color: #90caf9;/* #bdbdbd */
+  background-size: cover;
+  -webkit-clip-path: polygon(0px 0px, 100% 35%, 100% 100%, 0px 100%);
+  clip-path: polygon(0px 0px, 100% 45%, 100% 100%, 0px 100%);
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  padding-top: 5%;
+}
+
+.li-footer-link {
+	display: inline-block;
+}
+
+/* styling dashboard */
+
+.controlWrapper {
+	height: 630px;
+	padding-left: 5px; padding-right: 5px;
+	margin: 5px 0px;
+}
+.dashTabs {
+	height:auto;
+	white-space: normal;
+	background-color: white;
+}
+.dashTabs .indicator{
+	background-color: white;
+}
+.dashTabs li {
+	display:block; width:auto;
+	background-color: inherit;
+}
+
+.forTab {
+	/**/
+	height:590px !important;
+}
+
+/* END :styling dashboard */
