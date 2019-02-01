@@ -1,0 +1,80 @@
+{% extends 'baseSeller.html' %}
+
+{% block pagetitle %} Register {% endblock %}
+
+{% block welcome %}
+Almost There
+{% endblock %}
+
+{% block content %}
+	
+	<!-- page content -->	
+
+	<section>
+		<div class="container">
+
+			<div class="row">
+				<div class="col m6 offset-m3">
+					<div class="card-panel">
+						<span>
+							<h4 class="center">
+								Create Shop
+							</h4>
+							
+							{% if status %}
+							<p>
+								<small>Status : </small>
+								{{ status }}
+							</p>
+							{% endif %}
+
+							{% load materializecss %}
+							<form method="POST" enctype="multipart/form-data" action="" 
+							class="" id="regform">
+								{% csrf_token %}
+
+								<!--  signupPart1|materializecss  -->
+								{% for p1field in signupPart1 %}
+									<span> 
+										<!-- <p>  p1field.errors  </p> -->
+										<label>
+											<!--<span>  p1field.label_tag  </span>-->
+											{{ p1field|materializecss }}
+										</label>
+									</span>
+								{% endfor %}
+								<!--  signupPart2|materializecss  -->
+								{{signupPart2.management_form}}
+								{% for p2field in signupPart2 %}
+									<label>
+										{{ p2field|materializecss }}
+									</label>
+									{% if p2field.label_tag == 'Delete' %}
+									hi
+									{% endif %}
+								{% endfor %}
+
+								<br />
+
+								<button type="submit" name="createShopBtn"
+								class="btn-floating waves-effect waves-green" 
+								title="Create Shop">
+									<i class="material-icons">add</i>
+								</button>
+
+								<button type="reset" name="resetBtn"
+								class="btn-floating waves-effect waves-red right" 
+								title="Refresh Form">
+									<i class="material-icons">refresh</i>
+								</button>
+
+							</form>
+						</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+	
+{% endblock %}
