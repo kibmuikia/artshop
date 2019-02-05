@@ -1,0 +1,105 @@
+			<div class="row">
+				<div class="col m12">
+					<div class="container">
+						<form method="POST" action="" class="">
+							{% csrf_token %}
+							<!-- searchcategoryform -->
+							{% for field in searchcategoryform %}
+							<label> {{ field.label_tag }} </label>
+							{{ field }}
+							{% endfor %}
+						{{ searchcategoryform.media }}
+							<input type="submit" name="searchBtn" value="Tafuta" />
+						</form>
+					</div>
+				</div>
+			</div>
+
+	def __init__(self, *args, **kwargs):
+		self.request = kwargs.pop('request', None)
+		request = self.request
+		#user = request.user
+		print( self.request )
+		initial = kwargs.get('initial', {})
+		initial['vendor'] = self.request.user
+		kwargs['initial'] = initial
+		super(addProductForm, self).__init__(*args, **kwargs)
+		#pass
+
+
+/*$("#searchtext").autocomplete({
+	source: ['box','cash','house'],// "/products/ajax_calls/search/", 
+	// {% url 'productsAutoCompleteLink' %} .ui-autocomplete
+	minLength: 0,
+	appendTo: "#searchtext",
+	delay: 200,
+	/*open: function(){
+		setTimeout(function () {
+			//$('#searchtext').css('z-index', 99);
+		}, 0);
+	},
+});*/
+
+/*
+window.onload = function() {
+    if (window.jQuery) {  
+        // jQuery is loaded  
+        alert("Yeah!");
+    } else {
+        // jQuery is not loaded
+        alert("Doesn't Work");
+    }
+}
+
+$('#searchtext').autocomplete({
+    	serviceUrl: "{% url 'productsAutoCompleteLink' %}",
+    	onSelect: function (suggestion) {
+        	alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+    	},
+    	type:'GET',
+});
+*/
+
+/*
+$(document).on('ready', function(){
+	populateSearchFieldList();
+});   
+
+function populateSearchFieldList() {
+
+    var url = "{% url 'productsAutoCompleteLink' %}";
+    $.get(url, function(response) {
+
+		// console.log("Success..!!");
+		console.log("Showing response::");
+		console.log(response);
+
+		// now in views.py, you've returned a list in which every 
+		// object has an id, name and value but you
+		// want only the names in your autocomplete. So for that, first
+		// you'll have to create a list of just the names and then feed
+		// that list to the source of autocomplete. Like this
+
+		var searchFieldOptions = [];
+		var i = 0;
+
+		$.each(response,function(){
+			searchFieldOptions.push(response[i].name);
+			i++;
+		});
+
+		// and now make the source of autocomplete as 
+		// searchFieldOptions like this
+
+		$(function(){
+			$("#searchtext").autocomplete({
+				source: searchFieldOptions,
+				minLength: 2,
+				appendTo: "#searchtext",
+			});
+		});               
+
+       });
+
+}// end: populateSearchFieldList
+*/

@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block pagetitle %} Crafts Shop {% endblock %}
+
+{% block morestyle %}
+
+	{% load static %}
+	<!--<link rel="stylesheet" type="text/css"
+	href="{% static 'root/css/style.css' %}" />-->
+
+{% endblock %}
+
+{% block content %}
+
+	<!-- page content -->
+	
+	<section class="">
+		<div class="kibSection1">
+			<div class="container">
+				<div class="row correct">
+					<div class="col s12 m12">
+						<!-- <h1 class="animated infinite bounce delay-2s">Example</h1> -->
+						<div class="kibBgCircleWhite kibFlexCenterV">
+							<header class="center-align">
+								<h1 style="font-size: 3rem;">
+									The Crafts Shop !
+								</h1>
+								<p style="font-size: 1.2rem;margin-bottom: 30px;" >
+									To the Kings of Art
+								</p>
+							</header>
+							<p>
+								We provide an unending collection of unique art pieces in all types and forms. Come and satisfy your soul !
+							</p>
+							<p class="center-align">
+								<a href="{% url 'all_products' %}" class="btn">
+									Shop Now!
+								</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="categorySection">
+		<div class="container">
+			
+			<div class="row">
+				<div class="col m6 offset-m3">
+
+					<!--<div class="row z-depth-1" style="border-radius:5px;padding-top:3px;">
+
+						<div class="input-field col s12">
+						<i class="material-icons prefix">search</i>
+						<input type="text" id="autocomplete-input" class="autocomplete">
+						<label for="autocomplete-input">Search Products</label>
+						</div>
+
+					</div>-->
+
+					{% load materializecss %}
+					<form action="" method="POST">
+										<!--{ searchcategoryform|materializecss }-->
+						{% csrf_token %}
+						
+						<div class="row">
+							<div class="col m9 input-field">
+								
+						<label for="searchtext">
+							<i class="material-icons left">search</i>
+							Search Product
+						</label>
+
+						<input type="text" name="searchtext" id="searchtext" 
+						class="form-control" list="prod_datalist" />
+						<datalist id="prod_datalist"></datalist>
+
+							</div>
+							<div class="col m3">
+								<button class="btn waves-effect">
+									<i class="material-icons">send</i>
+								</button>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+
+			<h3 class="center-align" id="prodSectHeading">Products</h3>
+			
+			<div class="row">
+
+				{% for category in allCategories %}
+
+					<div class="col m5 offset-m1">
+					<div class="card hoverable">
+						<div class="card-image">
+							{% load static %}
+							<img src="{{ category.categoryImage.url }}" 
+							alt="{{ category.categoryImage.name }}" 
+							style="height:250px;">
+							<!--<span class="card-title white-text">
+								
+							</span>-->
+							<a class="btn-floating halfway-fab waves-effect waves-light red" 
+							href="{% url 'category_list_link' category.pk %}">
+								<i class="material-icons">search</i>
+							</a>
+						</div>
+						<div class="card-content">
+							<h5 class="header center-align">
+								{{ category.category }}
+							</h5>
+						</div>
+					</div>
+					</div>
+
+				{% endfor %}
+
+			</div>
+
+		</div>
+	</section>
+
+{% endblock %}
+
+{% block morejs %}
+
+<script>
+	
+	var scroll = new SmoothScroll('a[href*="#"]', {
+		easing: 'easeInOutQuart',
+		speed: 950
+	});
+
+	document.addEventListener("DOMContentLoaded", function(){
+		//c
+		$('.kibBgCircleWhite').delay(200).addClass('animated fadeInLeft');
+		$('.kibBgCircleWhite header *').delay(300).addClass('animated bounceInUp slow');
+	});
+
+$(function() {
+
+$("#searchtext").keyup(function(){
+	var val = $(this).val();
+	//console.log( val );
+
+	if( val.length >= 1 ){
+		$.ajax( {
+			url: "{% url 'productsAutoCompleteLink' %}",
+			data: 'searchtext='+val,
+			beforeSend: function( xhr, settings ){
+				//console.log( xhr )
+				//console.log( settings.data )
+			},
+			error: function( request, status, error ) {
+				console.log( 'An error occurred' );
+				console.log( request.responseText );
+			},
+			type: 'GET',
+			success: function(data) {
+				//console.log( 'Success' );
+				if( $.isArray( data ) && data.length !== 0 ){
+					//console.log( $.isArray( data ) );
+					//console.log( data.length );
+					var optionsList = [];
+					$.each(data, function (index, value) {
+						//console.log( index + " : " + value );
+						optionsList.push('<option value="'+ value +'">'+ value +'</option>');
+					});
+					$('#prod_datalist').html(optionsList.join(''));
+				} else{
+					console.log( 'received result is NOT an array or an empty array' );
+					console.log( data );
+				}
+			},
+		} );// end: AJAX
+	}// end: IF
+
+});// end: KEYUP
+
+});// end: MAIN FUNCTION WRAP	
+
+</script>
+
+{{ searchcategoryform.media }}
+
+{% endblock %}
