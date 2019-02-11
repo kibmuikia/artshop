@@ -1,0 +1,264 @@
+{% extends 'baseSeller.html' %}
+
+{% block pagetitle %} Dashboard-{{ request.user }} {% endblock %}
+
+{% block welcome %}
+<a href="{% url 'dashboardLink' %}" class="black-text">
+	Dashboard
+</a>
+
+
+{% endblock %}
+
+{% block content %}
+
+	<!-- page content -->
+
+
+	<section class="controlWrapper">
+		<div class="row">
+			
+			<div class="col s12 m3 hoverable" 
+			style="padding:0px 5px 10px 5px;">
+				
+				<div class="card horizontal">
+					<div class="card-image valign-wrapper">
+						<img src="{{ request.user.user.profileImage.url }}" 
+						style="height:200px; width:130px; border-radius:8px; padding-left:3px;" 
+						class="">
+					</div>
+					<div class="card-stacked">
+						<div class="card-content">
+							<h5 class="header">
+								Welcome {{ request.user }}
+							</h5>
+							<p>
+								Full Name :
+								<b>
+									{{ request.user.first_name }} 
+									{{ request.user.last_name }}
+								</b>
+							</p>
+							<p>
+								Your Shop : 
+								<b>
+								{{ request.user.user.shop }}
+								</b>
+							</p>
+							{% if status %}
+							<div class="divider"></div>
+							<p class="">
+								<i>Status:</i> 
+								{{ status }}
+							</p>
+							{% endif %}
+						</div>
+						<div class="card-action center-align">
+							<a href="/vendor/dashboard/edit/{{request.user.id}}" 
+							title="Edit Your Profile">
+								<button class="btn-floating btn-small">
+									<i class="material-icons">edit</i>
+								</button>
+							</a>
+						</div>
+					</div>
+				</div><!-- end Header Menu -->
+
+
+				<ul class="tabs dashTabs center">
+					<li class="tab">
+						<a href="#profileTab">
+							<button class="btn">
+								View Profile
+							</button>
+						</a>
+					</li>
+					<li class="tab">
+						<a href="#productsTab" class="">
+							<button class="btn">
+								Your Products
+							</button>
+						</a>
+					</li>
+					<li class="tab">
+						<a href="#addProductTab">
+							<button class="btn">
+								Add Product
+							</button>
+						</a>
+					</li>
+				</ul>
+
+			</div>
+
+			<div class="col s12 m9" 
+			style="height:610px; max-height:610px;">
+				<div class="row">
+					
+					<div class="col m12 forTab" 
+					id="profileTab" style="">
+						<h4 class="header center-align">Profile Information</h4>
+						<div class="container center">
+						<table class="responsive-table highlight">
+							<tbody>
+								<tr>
+									<td>First Name</td>
+									<td> {{ request.user.first_name }} </td>
+								</tr>
+								<tr>
+									<td>Last Name</td>
+									<td> {{ request.user.last_name }} </td>
+								</tr>
+								<tr>
+									<td>Username</td>
+									<td> {{ request.user.username }} </td>
+								</tr>
+								<tr>
+									<td>Email Address</td>
+									<td> {{ request.user.email }} </td>
+								</tr>
+								<tr>
+									<td>Business Name</td>
+									<td> {{ request.user.user.shop }} </td>
+								</tr>
+								<tr>
+									<td>Business Description</td>
+									<td> {{ request.user.user.shopInfo }} </td>
+								</tr>
+								<tr>
+									<td>Business Location</td>
+									<td> {{ request.user.user.shopLocation }} </td>
+								</tr>
+								<tr>
+									<td>Website</td>
+									<td> {{ request.user.user.website }} </td>
+								</tr>
+							</tbody>
+						</table>
+						</div>
+					</div>
+
+					<div class="col m12 forTab" 
+					id="productsTab" style="overflow-y:auto;">
+						<h4 class="header center-align">All Your Products</h4>
+						
+						<div class="row">
+
+						{% for product in vendorProducts %}
+							<div class="col m3">
+
+								<div class="card hoverable" 
+								style="">
+
+								{% load static %}
+								<div class="card-image waves-effect waves-block waves-light" 
+								title="Click to reveal information">
+									<img class="activator" 
+									src="{{ product.image_one.url }}" 
+									alt="{{ product.name }}" 
+									style="height:200px;">
+								</div>
+
+								<div class="card-content">
+									<span 
+									class="card-title activator grey-text text-darken-4">
+									{{ product.name }}
+									<i class="material-icons right" 
+									title="More Product Information">
+									more_vert</i>
+									</span>
+									<br />
+									<p>
+										<a href="/products/edit/{{product.name}}"
+										title="Edit {{ product.name }}">
+										<button class="btn-floating">
+											<i class="material-icons">edit</i>
+										</button>
+										</a>
+
+										<a href="{% url 'delete_product' product.name %}" 
+										class="right" 
+										title="Delete {{ product.name }}">
+										<button class="btn-floating red">
+											<i class="material-icons">cancel</i>
+										</button>
+										</a>
+									</p>
+								</div>
+
+								<div class="card-reveal light-blue lighten-5">
+									<span class="card-title grey-text text-darken-4">
+										{{ product.name }} 
+										<i class="material-icons right">close</i>
+									</span>
+									<p>Description: {{ product.description }} </p>
+									<p>Category: {{ product.prod_category }} </p>
+									<p>Sub Category: {{ product.sub_category }} </p>
+									<!--<p>Shop: {{ product.vendor.shop }} </p>
+									<p>Shop Information {{ product.shopInfo }} </p>-->
+									<p>Delivery Information: {{ product.deliveryInfo }}</p>
+								<p  class="left">
+									<img 
+									src="{{ product.image_two.url }}" 
+									alt="{{ product.name }}" 
+									style="height:100px;width:100px;" 
+									class="circle responsive-img" />
+								</p>
+								<p class="right">
+									<img 
+									src="{{ product.image_three.url }}" 
+									alt="{{ product.name }}" 
+									style="height:100px;width:100px;" 
+									class="circle responsive-img" />
+								</p>
+								</div>
+
+								</div>
+
+							</div>
+						{% endfor %}
+
+						</div>
+
+					</div>
+
+					<div class="col m12 forTab" id="addProductTab" 
+					style="overflow-y:auto;">
+						<h4 class="header center-align">Add A Product</h4>
+
+						<div class="container">
+
+						{% load materializecss %}
+						<form method="POST" enctype="multipart/form-data" action="" 
+						class="" style="">
+							{% csrf_token %}
+
+							<!-- formAddProduct| materializecss -->
+
+							{{ formAddProduct|materializecss }}
+
+							<input type="submit" name="addbtn" value="Add" 
+							class="btn right" />
+						</form>
+						<br />
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</section>	
+	
+{% endblock %}
+
+{% block morejs %}
+<script>
+	
+	$('.tabs').tabs( { "swipeable":"False" } );
+	$('select').formSelect();
+
+
+</script>
+{% endblock %}

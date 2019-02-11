@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load staticfiles %}
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+   	<meta name="description" content="Craft Shop, where creativity lives" />
+	<meta name="author" content="kibuthi.A" />
+
+	<title>
+		{% block pagetitle %} <!-- page-title --> {% endblock %}
+	</title>
+
+	<!-- custom css -->
+	<link rel="stylesheet" type="text/css" 
+	href="{% static 'artshop/css/rootstyle.css' %}" />
+
+	<!-- materialize style rules -->
+	<!--<link rel="stylesheet" type="text/css" 
+	href="{% static 'artshop/css/materialize.css' %}" /> -->
+
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
+	<!-- material-icons.css -->
+	<!--<link rel="stylesheet" type="text/css" 
+	href="{% static 'artshop/icons/material-icons.css' %}" />-->
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<!-- Animate CSS Icons -->
+	<!--<link rel="stylesheet" type="text/css" 
+	href="{% static 'artshop/css/animate.min.css' %}" />-->
+
+	<link rel="stylesheet"
+	 href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
+
+	<!-- FontAwesome Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+
+	<link rel="stylesheet" type="text/css" 
+	href="{% static 'artshop/css/all.css' %}" />
+	
+	<!-- site logo 
+	<link rel="shortcut icon" href="{% static 'artshop/images/favicon.ico' %}" /> -->
+	
+	
+	<style type="text/css">
+		/* c */
+		.animated {
+			animation-delay: 1s;
+		}
+	</style>
+
+	{% block morestyle %} <!-- additional stylesheets --> {% endblock %}
+
+</head>
+<body>
+
+	<div class="preloader-background">
+		<div class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+<div class="navbar-fixed">
+	<nav class="blue lighten-2" role="navigation">
+		<div class="nav-wrapper container">
+			
+			<a id="logo-container" href="/" class="brand-logo">
+				<i class="fa fa-paint-brush"></i>
+				<div class="right">
+					Crafts Shop
+				</div>
+			</a>
+			<ul class="right hide-on-med-and-down">
+				<li>
+					<a href="{% url 'all_products' %}">
+						<i class="material-icons left">shopping_cart</i> Products
+					</a>
+				</li>
+				{% if request.user.is_authenticated %}
+					<li>
+						<a href="{% url 'dashboardLink' %}" 
+						title="{{ request.user }}'s Dashboard">
+							<i class="material-icons">settings</i>
+						</a>
+					</li>
+					<li>
+						<a href="{% url 'logoutLink' %}" 
+						title="Logout of your account">
+							Logout
+						</a>
+					</li>
+				{% else %}
+					<li>
+						<a class='dropdown-trigger' 
+						href='#' data-target='dropdown1'>
+							<i class="left material-icons">account_circle</i>
+							Vendor Account
+						</a>
+					</li>
+
+					<ul id='dropdown1' class='dropdown-content'>		
+						<li>
+							<a href="{% url 'sellerIndex' %}" class="" 
+							title="Login into your account">
+								<i class="material-icons">account_box</i>
+								Sign In
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'sellerRegister' %}" class="" 
+							title="To register your shop account">
+								<i class="material-icons">add_circle_outline</i>
+								Sign Up
+							</a>
+						</li>
+					</ul>
+				{% endif %}
+
+				{% block navlinks %}<!-- navbar links -->{% endblock %}
+				
+			</ul>
+
+			<a href="#" data-target="nav-mobile" class="sidenav-trigger right">
+				<i class="material-icons">menu</i>
+			</a>
+
+		</div>
+	</nav>
+</div>
+
+	<!-- Sidenav -->
+	<ul id="nav-mobile" class="sidenav">
+		<li>
+			<a href="/">
+				<i class="material-icons left">home</i> Home
+			</a>
+		</li>
+		<li>
+			<a href="{% url 'all_products' %}">
+				<i class="material-icons left">shopping_cart</i> Products
+			</a>
+		</li>
+		{% if request.user.is_authenticated %}
+			<li>
+				<a href="{% url 'dashboardLink' %}" 
+				title="{{ request.user }}'s Dashboard">
+					<i class="material-icons">settings</i>
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'logoutLink' %}" 
+				title="Logout of your account">
+					Logout
+				</a>
+			</li>
+		{% else %}
+			<li>
+				<a class='dropdown-trigger' 
+				href='#' data-target='dropdown1_1'>
+					<i class="left material-icons">account_circle</i>
+					Vendor Account
+				</a>
+			</li>
+		{% endif %}
+	</ul>
+
+		<!-- dropdown1_1-content -->
+		<ul id='dropdown1_1' class='dropdown-content'>		
+			<li>
+				<a href="{% url 'sellerIndex' %}" class="" 
+				title="Login into your account">
+					<i class="material-icons">account_box</i>
+					Sign In
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'sellerRegister' %}" class="" 
+				title="To register your shop account">
+					<i class="material-icons">add_circle_outline</i>
+					Sign Up
+				</a>
+			</li>
+		</ul>
+        
+
+	{% block content %}<!-- page content -->{% endblock %}
+
+	<section class="">
+		<div class="kibSection3">
+			<div class="container">
+				<div class="row center-align">
+					<div class="col m12">
+						<ul>
+							<li class="li-footer-link">
+								<a href="#">
+									<i class="fab fa-facebook-square"></i>
+								</a>
+							</li>
+							<li class="li-footer-link">
+								<a href="#">
+									<i class="fab fa-twitter-square"></i>
+								</a>
+							</li>
+						</ul>
+						<p>
+							Copyright &copy; 2019 Craft Shop | Design: KibCode
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- JS files -->
+	<!--<script src="{% static 'artshop/js/jquery-3.3.1.min.js' %}"></script>-->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!--<script src="{% static 'artshop/js/materialize.min.js' %}"></script>-->
+	<!-- Compiled and minified JavaScript -->
+    <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	
+	<!--<script src="{% static 'artshop/js/smooth-scroll.polyfills.min.js' %}"></script>-->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/15.2.1/smooth-scroll.polyfills.min.js"></script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function(){
+			$('.preloader-background').delay(200).fadeOut(300);
+			
+			$('.preloader-wrapper')
+				.delay(250)
+				.fadeOut();
+		});
+
+		$(document).ready(function(){
+			$('#nav-mobile').sidenav();
+			$('.dropdown-trigger').dropdown();
+			$('select').formSelect();
+		});
+
+	</script>
+	{% block morejs %}<!-- more scripts -->{% endblock %}
+
+</body>
+</html>

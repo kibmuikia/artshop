@@ -1,0 +1,75 @@
+{% extends 'baseSeller.html' %}
+
+{% block pagetitle %} Edit Profile {% endblock %}
+
+{% block welcome %}
+Profile Editing
+{% endblock %}
+
+{% block content %}
+
+<section>
+<div class="container">
+	<div class="row">
+		<div class="col m9 offset-m2">
+
+<div class="card hoverable">
+	<div class="card-content">
+		
+		<span class="card-title center">
+			<h4>Edit Profile</h4>
+		</span>
+		{% if status %}
+		<div class="divider"></div>
+		<span>
+			<p >
+				Message:<br />
+				<strong>{{ status }}</strong>
+			</p>
+		</span>
+		<div class="divider"></div>
+		<br />
+		{% endif %}
+
+		{% load materializecss %}
+		<form method="POST" action="" enctype="multipart/form-data">
+			{% csrf_token %}
+			
+			<!-- form.name|materializecss:'s12 m6, icon=person' -->
+			{% for f in fbase %}
+			<span>
+				{{ f.errors }}
+				<label>
+					{{ f|materializecss }}
+				</label>
+			</span>
+			{% endfor %}
+			{{fextra.management_form}}
+			{% for f2 in fextra %}
+			<span>
+				{{ f2.errors }}
+				<label>
+					{{ f2|materializecss }}
+				</label>
+			</span>
+			{% endfor %}
+
+			<button class="btn waves-effect waves-green" type="submit">
+				Save Changes 
+				<i class="material-icons right">send</i>
+			</button>
+		</form>
+
+	</div>
+
+	<div class="card-action">
+		<a href="{% url 'dashboardLink' %}">Dashboard</a>
+	</div>
+</div>
+
+		</div>
+	</div>
+</div>
+</section>
+
+{% endblock %}

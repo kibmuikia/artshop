@@ -1,0 +1,3 @@
+  02_createsu:
+    command: "source /opt/python/run/venv/bin/activate && python manage.py createsu"
+    leader_only: true
